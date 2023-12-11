@@ -1,30 +1,17 @@
-const { readFile, writeFile } = require("fs").promises;
-// const util = require("util");
-// const readFilePromise = util.promisify(readFile);
-// const writeFilePromise = util.promisify(writeFile);
-const start = async () => {
-  try {
-    const first = await readFile("./content/first.txt", "utf8");
-    const second = await readFile("./content/second.txt", "utf8");
-    await writeFile("./content/third.txt", "this is third file");
-    console.log(first, second);
-  } catch (error) {
-    console.log(error);
+const http = require("http");
+const server = http.createServer();
+server.on("request", (req, res) => {
+  if (req.url === "/") {
+    res.write("welcome to website");
+    res.end();
+  } else if (req.url === "/about") {
+    res.write("about page");
+    res.end();
+  } else {
+    res.write("this is not the correct page");
+    res.end();
   }
-};
-start();
-
-// const getText = (path) => {
-//   return new Promise((reject, resolve) => {
-//     readFile(path, "utf8", (err, result) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(result);
-//       }
-//     });
-//   });
-//
-//getText("./content/first.txt")
-//   .then((result) => console.log(result))
-//   .catch((err) => console.log(err));
+});
+server.listen(5000, () => {
+  console.log("this is port 5000");
+});
